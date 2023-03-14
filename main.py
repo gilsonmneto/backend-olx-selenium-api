@@ -5,8 +5,7 @@ import time
 import csv
 
 # Configura o Selenium WebDriver para controlar o Google Chrome
-
-#driver = webdriver.Chrome()
+# driver = webdriver.Chrome()
 
 driver = webdriver.Chrome(ChromeDriverManager().install())
 # Abre a página inicial da OLX
