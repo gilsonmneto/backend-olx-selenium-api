@@ -10,8 +10,9 @@ class RulesOlx:
     '''Classe reponsável por raspar os dados da OLX e retornar os resultados em um JSON'''
 
     FORM_XPATH = '//*[@id="left-side-main-content"]/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/form/'
+    URL = 'https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios'
 
-    def __init__(self, url: str, params: dict):
+    def __init__(self, params: dict):
         '''Carrega todos os valores recebidos nas respectivas variáveis e abre o webdriver'''
         self.fabricante = params["fabricante"]
         self.modelo = params['modelo']
@@ -19,9 +20,9 @@ class RulesOlx:
         self.ano_fim = params['ano_fim']
         self.preco_minimo = params['preco_minimo']
         self.preco_maximo = params['preco_maximo']
-        self.driver = webdriver.Chrome(ChromeDriverManager().install())
-        self.get(url)
-        self.maximize_window()
+        driver = webdriver.Chrome(ChromeDriverManager().install())
+        driver.get(self.URL)
+        driver.maximize_window()
 
     def is_params_correct(self) -> bool:
         '''Verifica se todos os parâmetros de pesquisa estão presentes na requisição de raspagem'''
