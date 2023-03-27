@@ -52,7 +52,7 @@ class RulesOlx:
         time.sleep(4)
         element = (Select(self.driver.find_element(
             By.XPATH, f'{self.FORM_XPATH}div[6]/div/div/div[1]/div/select')))
-        element.select_by_visible_text(self.inicio)
+        element.select_by_visible_text(self.ano_inicio)
 
     def digitar_ano_fim(self):
         '''Digita o ano fim no campo correto e clica'''
