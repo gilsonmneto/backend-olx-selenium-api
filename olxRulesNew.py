@@ -1,10 +1,8 @@
-from lib2to3.pgen2 import driver
 from selenium.webdriver.support.ui import Select
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 import time
-import json
 from selenium.webdriver.common.keys import Keys
 
 
@@ -73,10 +71,10 @@ class RulesOlx:
 
     def digitar_preco_maximo(self):
         '''Digita o preço máximo no campo correto e clica'''
-        element = driver.find_element(
+        element = self.driver.find_element(
             By.XPATH, '//*[@id="left-side-main-content"]/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/form/div[7]/div/div/div[2]/input')
         element.send_keys(self.preco_maximo)
-        element = driver.find_element(
+        element = self.driver.find_element(
             By.XPATH, '//*[@id="left-side-main-content"]/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/form/div[6]/div/div/div[3]/button')
         element.click()
 
