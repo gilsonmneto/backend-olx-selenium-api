@@ -56,8 +56,8 @@ class RulesOlx:
 
     def get_ano_inicio():
         try:        
-            if ("ano_inicio" not in parametros) or ("ano_fim" not in parametros):
-                return{"status": 400, "mensagem": "O parametro ano inicio é obrigatórios"}
+            if ("ano_inicio" not in parametros):
+                return{"status": 400, "mensagem": "O parametro ano inicio é obrigatório"}
             else:
                 time.sleep(4)
                 ano_inicio = (Select(driver.find_element(By.XPATH, '//*[@id="left-side-main-content"]/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/form/div[6]/div/div/div[1]/div/select')))
@@ -84,7 +84,7 @@ class RulesOlx:
     def get_preco_minimo():
         try:
             if ("preco_minimo" not in parametros):
-                return{"status": 400, "mensagem": "Os parametros preço minimo e preço maximo são obrigatórios"}
+                return{"status": 400, "mensagem": "O parametro preço minimo é obrigatório"}
             else:
                 time.sleep(4)
                 preco_minimo = driver.find_element(By.XPATH, '//*[@id="left-side-main-content"]/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/form/div[7]/div/div/div[1]/input')
@@ -95,8 +95,8 @@ class RulesOlx:
 
     def get_preco_maximo():
         try:
-            if ("preco_minimo" not in parametros) or ("preco_maximo" not in parametros):
-                return{"status": 400, "mensagem": "Os parametros preço minimo e preço maximo são obrigatórios"}
+            if ("preco_maximo" not in parametros):
+                return{"status": 400, "mensagem": "O parametro preço maximo é obrigatório"}
             else:  
                 preco_maximo = driver.find_element(By.XPATH, '//*[@id="left-side-main-content"]/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/form/div[7]/div/div/div[2]/input')
                 preco_maximo = preco_maximo.send_keys(parametros['preco_maximo'])
