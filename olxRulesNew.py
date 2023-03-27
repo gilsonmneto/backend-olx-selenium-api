@@ -13,7 +13,6 @@ class RulesOlx:
 
     def __init__(self, url: str, params: dict):
         '''Carrega todos os valores recebidos nas respectivas variáveis e abre o webdriver'''
-        self.url = url
         self.fabricante = params["fabricante"]
         self.modelo = params['modelo']
         self.ano_inicio = params['ano_inicio']
@@ -21,7 +20,7 @@ class RulesOlx:
         self.preco_minimo = params['preco_minimo']
         self.preco_maximo = params['preco_maximo']
         self.driver = webdriver.Chrome(ChromeDriverManager().install())
-        self.get(self.url)
+        self.get(url)
         self.maximize_window()
 
     def is_params_correct(self) -> bool:
