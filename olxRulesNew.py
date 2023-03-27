@@ -23,6 +23,7 @@ class RulesOlx:
         driver = webdriver.Chrome(ChromeDriverManager().install())
         driver.get(self.URL)
         driver.maximize_window()
+        self.driver = driver
 
     def is_params_correct(self) -> bool:
         '''Verifica se todos os parâmetros de pesquisa estão presentes na requisição de raspagem'''
@@ -37,7 +38,7 @@ class RulesOlx:
         element = Select(self.driver.find_element(
             By.XPATH, f'{self.FORM_XPATH}div[2]/div[1]/div/div/div/select'))
         element.select_by_visible_text(
-            str.upper(self.marca))
+            str.upper(self.fabricante))
 
     def digitar_modelo(self):
         '''Digita o modelo no campo correto'''
@@ -102,3 +103,16 @@ class RulesOlx:
                 continue
 
         return carros
+
+    def run(self):
+        if not self.is_params_correct():
+            print("Erro nos parâmetros")
+            return
+        self.digitar_fabricante()
+        self.digitar_modelo()
+        self.digitar_ano_inicio()
+        self.digitar_ano_fim()
+        self.digitar_preco_minimo()
+        self.digitar_preco_maximo()
+        result = self.resultados()
+        return result
