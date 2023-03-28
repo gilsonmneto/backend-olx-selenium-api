@@ -13,21 +13,21 @@ class RulesOlx:
     URL_PREFIX = 'https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios'
 
     def __init__(self, params: dict):
-        '''Carrega todos os valores recebidos nas respectivas variáveis e abre o webdriver'''
+        '''Carrega todos os valores recebidos nas respectivas variáveis e abre o webdriver na url correta'''
         self.fabricante = params["fabricante"]
         self.modelo = params['modelo']
         self.ano_inicio = params['ano_inicio']
         self.ano_fim = params['ano_fim']
         self.preco_minimo = params['preco_minimo']
         self.preco_maximo = params['preco_maximo']
-        if not self.is_params_correct():
+        if not self.__is_params_correct():
             raise Exception("ERROR: Erro de Parâmetro")
         driver = webdriver.Chrome(ChromeDriverManager().install())
         driver.get(f"{self.URL_PREFIX}/{self.fabricante}/{self.modelo}")
         driver.maximize_window()
         self.driver = driver
 
-    def is_params_correct(self) -> bool:
+    def __is_params_correct(self) -> bool:
         '''Verifica se todos os parâmetros de pesquisa estão presentes na requisição de raspagem'''
         if not self.fabricante or not self.modelo or not self.ano_inicio:
             return False
@@ -35,14 +35,14 @@ class RulesOlx:
             return False
         return True
 
-    def digitar_ano_inicio(self):
+    def __digitar_ano_inicio(self):
         '''Digita o ano início no campo correto'''
         time.sleep(4)
         element = (Select(self.driver.find_element(
             By.XPATH, f'{self.FORM_XPATH}div[6]/div/div/div[1]/div/select')))
         element.select_by_visible_text(self.ano_inicio)
 
-    def digitar_ano_fim(self):
+    def __digitar_ano_fim(self):
         '''Digita o ano fim no campo correto e clica'''
         element = Select(self.driver.find_element(
             By.XPATH, f'{self.FORM_XPATH}div[6]/div/div/div[2]/div/select'))
@@ -52,14 +52,14 @@ class RulesOlx:
             By.XPATH, '//*[@id="left-side-main-content"]/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/form/div[6]/div/div/div[3]/button')
         element.click()
 
-    def digitar_preco_minimo(self):
-        '''Digita o preço mínimo no campo correto e clica'''
+    def __digitar_preco_minimo(self):
+        '''Digita o preço mínimo no campo correto'''
         time.sleep(4)
         element = self.driver.find_element(
             By.XPATH, '//*[@id="left-side-main-content"]/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/form/div[7]/div/div/div[1]/input')
         element.send_keys(self.preco_minimo)
 
-    def digitar_preco_maximo(self):
+    def __digitar_preco_maximo(self):
         '''Digita o preço máximo no campo correto e clica'''
         time.sleep(2)
         element = self.driver.find_element(
@@ -70,11 +70,12 @@ class RulesOlx:
             By.XPATH, '//*[@id="left-side-main-content"]/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/form/div[7]/div/div/div[3]/button')
         element.click()
 
-    def close_webdriver(self):
-        self.driver.close()
+    def __close_webdriver(self):
+        '''Fecha o webdriver'''
+        self.driver.quit()
 
-    def resultados(self) -> list:
-        '''captura os resultados e monta o json de resposta'''
+    def __resultados(self) -> list:
+        '''captura os resultados e monta a lista de dict [{}] de resposta'''
         time.sleep(2)
         carros = []
         itens = self.driver.find_elements(By.XPATH, "//*[@id='ad-list']/li")
@@ -97,14 +98,13 @@ class RulesOlx:
             except Exception as e:
                 print(e)
                 continue
-
+        self.__close_webdriver()
         return carros
 
     def run(self):
-        self.digitar_ano_inicio()
-        self.digitar_ano_fim()
-        self.digitar_preco_minimo()
-        self.digitar_preco_maximo()
-        result = self.resultados()
-        self.close_webdriver()
+        self.__digitar_ano_inicio()
+        self.__digitar_ano_fim()
+        self.__digitar_preco_minimo()
+        self.__digitar_preco_maximo()
+        result = self.__resultados()
         return result
