@@ -10,7 +10,7 @@ class RulesOlx:
     '''Classe reponsável por raspar os dados da OLX e retornar os resultados em um JSON'''
 
     FORM_XPATH = '//*[@id="left-side-main-content"]/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/form/'
-    URL = 'https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios'
+    URL_PREFIX = 'https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios'
 
     def __init__(self, params: dict):
         '''Carrega todos os valores recebidos nas respectivas variáveis e abre o webdriver'''
@@ -20,8 +20,10 @@ class RulesOlx:
         self.ano_fim = params['ano_fim']
         self.preco_minimo = params['preco_minimo']
         self.preco_maximo = params['preco_maximo']
+        if not self.is_params_correct():
+            raise Exception("ERROR: Erro de Parâmetro")
         driver = webdriver.Chrome(ChromeDriverManager().install())
-        driver.get(self.URL)
+        driver.get(f"{self.URL_PREFIX}/{self.fabricante}/{self.modelo}")
         driver.maximize_window()
         self.driver = driver
 
@@ -32,20 +34,6 @@ class RulesOlx:
         if not self.ano_fim or not self.preco_minimo or not self.preco_maximo:
             return False
         return True
-
-    def digitar_fabricante(self):
-        '''Digita o fabricante no campo correto'''
-        element = Select(self.driver.find_element(
-            By.XPATH, f'{self.FORM_XPATH}div[2]/div[1]/div/div/div/select'))
-        element.select_by_visible_text(
-            str.upper(self.fabricante))
-
-    def digitar_modelo(self):
-        '''Digita o modelo no campo correto'''
-        time.sleep(4)
-        element = Select(self.driver.find_element(
-            By.XPATH, f'{self.FORM_XPATH}div[2]/div[3]/div/div/div/select'))
-        element.select_by_visible_text(str.upper(self.modelo))
 
     def digitar_ano_inicio(self):
         '''Digita o ano início no campo correto'''
@@ -59,6 +47,7 @@ class RulesOlx:
         element = Select(self.driver.find_element(
             By.XPATH, f'{self.FORM_XPATH}div[6]/div/div/div[2]/div/select'))
         element.select_by_visible_text(self.ano_fim)
+        time.sleep(2)
         element = self.driver.find_element(
             By.XPATH, '//*[@id="left-side-main-content"]/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/form/div[6]/div/div/div[3]/button')
         element.click()
@@ -72,18 +61,25 @@ class RulesOlx:
 
     def digitar_preco_maximo(self):
         '''Digita o preço máximo no campo correto e clica'''
+        time.sleep(2)
         element = self.driver.find_element(
             By.XPATH, '//*[@id="left-side-main-content"]/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/form/div[7]/div/div/div[2]/input')
         element.send_keys(self.preco_maximo)
+        time.sleep(3)
         element = self.driver.find_element(
-            By.XPATH, '//*[@id="left-side-main-content"]/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/form/div[6]/div/div/div[3]/button')
+            By.XPATH, '//*[@id="left-side-main-content"]/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/form/div[7]/div/div/div[3]/button')
         element.click()
+
+    def close_webdriver(self):
+        self.driver.close()
 
     def resultados(self) -> list:
         '''captura os resultados e monta o json de resposta'''
+        time.sleep(2)
         carros = []
         itens = self.driver.find_elements(By.XPATH, "//*[@id='ad-list']/li")
         total_itens = len(itens) + 1
+        time.sleep(2)
 
         for i in range(1, total_itens):
             try:
@@ -105,14 +101,10 @@ class RulesOlx:
         return carros
 
     def run(self):
-        if not self.is_params_correct():
-            print("Erro nos parâmetros")
-            return
-        self.digitar_fabricante()
-        self.digitar_modelo()
         self.digitar_ano_inicio()
         self.digitar_ano_fim()
         self.digitar_preco_minimo()
         self.digitar_preco_maximo()
         result = self.resultados()
+        self.close_webdriver()
         return result
