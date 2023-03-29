@@ -101,7 +101,7 @@ class RulesOlx:
         self.__close_webdriver()
         return carros
 
-    def run(self) -> list:
+    def run(self) -> list[dict]:
         self.__digitar_ano_inicio()
         self.__digitar_ano_fim()
         self.__digitar_preco_minimo()
