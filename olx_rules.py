@@ -9,8 +9,8 @@ from selenium.webdriver.common.keys import Keys
 class RulesOlx:
     '''Classe reponsável por raspar os dados da OLX e retornar os resultados em um JSON'''
 
-    FORM_XPATH = '//*[@id="left-side-main-content"]/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/form/'
-    URL_PREFIX = 'https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios'
+    FORM_XPATH: str = '//*[@id="left-side-main-content"]/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/form/'
+    URL_PREFIX: str = 'https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios'
 
     def __init__(self, params: dict):
         '''Carrega todos os valores recebidos nas respectivas variáveis e abre o webdriver na url correta'''
