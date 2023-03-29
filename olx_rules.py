@@ -74,7 +74,7 @@ class RulesOlx:
         '''Fecha o webdriver'''
         self.driver.quit()
 
-    def __resultados(self) -> list:
+    def __resultados(self) -> list[dict]:
         '''captura os resultados e monta a lista de dict [{}] de resposta'''
         time.sleep(2)
         carros = []
