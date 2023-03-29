@@ -35,14 +35,14 @@ class RulesOlx:
             return False
         return True
 
-    def __digitar_ano_inicio(self):
+    def __digitar_ano_inicio(self) -> None:
         '''Digita o ano início no campo correto'''
         time.sleep(4)
         element = (Select(self.driver.find_element(
             By.XPATH, f'{self.FORM_XPATH}div[6]/div/div/div[1]/div/select')))
         element.select_by_visible_text(self.ano_inicio)
 
-    def __digitar_ano_fim(self):
+    def __digitar_ano_fim(self) -> None:
         '''Digita o ano fim no campo correto e clica'''
         element = Select(self.driver.find_element(
             By.XPATH, f'{self.FORM_XPATH}div[6]/div/div/div[2]/div/select'))
@@ -52,14 +52,14 @@ class RulesOlx:
             By.XPATH, '//*[@id="left-side-main-content"]/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/form/div[6]/div/div/div[3]/button')
         element.click()
 
-    def __digitar_preco_minimo(self):
+    def __digitar_preco_minimo(self) -> None:
         '''Digita o preço mínimo no campo correto'''
         time.sleep(4)
         element = self.driver.find_element(
             By.XPATH, '//*[@id="left-side-main-content"]/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/form/div[7]/div/div/div[1]/input')
         element.send_keys(self.preco_minimo)
 
-    def __digitar_preco_maximo(self):
+    def __digitar_preco_maximo(self) -> None:
         '''Digita o preço máximo no campo correto e clica'''
         time.sleep(2)
         element = self.driver.find_element(
@@ -70,7 +70,7 @@ class RulesOlx:
             By.XPATH, '//*[@id="left-side-main-content"]/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/form/div[7]/div/div/div[3]/button')
         element.click()
 
-    def __close_webdriver(self):
+    def __close_webdriver(self) -> None:
         '''Fecha o webdriver'''
         self.driver.quit()
 
@@ -101,7 +101,7 @@ class RulesOlx:
         self.__close_webdriver()
         return carros
 
-    def run(self):
+    def run(self) -> list:
         self.__digitar_ano_inicio()
         self.__digitar_ano_fim()
         self.__digitar_preco_minimo()
