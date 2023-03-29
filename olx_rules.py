@@ -22,10 +22,9 @@ class RulesOlx:
         self.preco_maximo: str = params['preco_maximo']
         if not self.__is_params_correct():
             raise Exception("ERROR: Erro de Parâmetro")
-        driver: object = webdriver.Chrome(ChromeDriverManager().install())
-        driver.get(f"{self.URL_PREFIX}/{self.fabricante}/{self.modelo}")
-        driver.maximize_window()
-        self.driver: object = driver
+        self.driver: object = webdriver.Chrome(ChromeDriverManager().install())
+        self.driver.get(f"{self.URL_PREFIX}/{self.fabricante}/{self.modelo}")
+        self.driver.maximize_window()
 
     def __is_params_correct(self) -> bool:
         '''Verifica se todos os parâmetros de pesquisa estão presentes na requisição de raspagem'''
