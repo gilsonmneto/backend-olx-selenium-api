@@ -48,25 +48,25 @@ class RulesOlx:
         element.select_by_visible_text(self.ano_fim)
         time.sleep(2)
         element = self.driver.find_element(
-            By.XPATH, '//*[@id="left-side-main-content"]/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/form/div[6]/div/div/div[3]/button')
+            By.XPATH, f'{self.FORM_XPATH}div[6]/div/div/div[3]/button')
         element.click()
 
     def __digitar_preco_minimo(self) -> None:
         '''Digita o preço mínimo no campo correto'''
         time.sleep(4)
         element: object = self.driver.find_element(
-            By.XPATH, '//*[@id="left-side-main-content"]/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/form/div[7]/div/div/div[1]/input')
+            By.XPATH, f'{self.FORM_XPATH}div[7]/div/div/div[1]/input')
         element.send_keys(self.preco_minimo)
 
     def __digitar_preco_maximo(self) -> None:
         '''Digita o preço máximo no campo correto e clica'''
         time.sleep(2)
         element: object = self.driver.find_element(
-            By.XPATH, '//*[@id="left-side-main-content"]/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/form/div[7]/div/div/div[2]/input')
+            By.XPATH, f'{self.FORM_XPATH}div[7]/div/div/div[2]/input')
         element.send_keys(self.preco_maximo)
         time.sleep(3)
         element = self.driver.find_element(
-            By.XPATH, '//*[@id="left-side-main-content"]/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/form/div[7]/div/div/div[3]/button')
+            By.XPATH, f'{self.FORM_XPATH}div[7]/div/div/div[3]/button')
         element.click()
 
     def __close_webdriver(self) -> None:
